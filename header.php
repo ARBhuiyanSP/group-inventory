@@ -95,6 +95,7 @@ include 'includes/payment_process.php';
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="profile.php">Profile</a>
           <a class="dropdown-item" href="includes/logout.php">Logout</a>
           <!----<a class="dropdown-item" href="format.php">Format Site</a>--->
           <!--<a class="dropdown-item" href="#">Settings</a>-->
