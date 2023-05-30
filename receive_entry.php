@@ -1,6 +1,9 @@
 <?php 
 include 'header.php';
 ?>
+<style>
+
+</style>
 <!-- Left Sidebar End -->
 <!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
 <!--<link href="css/form-entry.css" rel="stylesheet">-->
@@ -96,7 +99,7 @@ include 'header.php';
                         <div class="col-xs-2">
                             <div class="form-group">
                                 <label for="id">Supplier</label>
-                                <select class="form-control" id="supplier_name" name="supplier_name" required onchange="getItemCodeByParam(this.value, 'suppliers', 'code', 'supplier_id');">
+                                <select class="form-control material_select_2" id="supplier_name" name="supplier_name" required onchange="getItemCodeByParam(this.value, 'suppliers', 'code', 'supplier_id');">
                                     <option value="">Select</option>
                                     <?php
                                     $projectsData = getTableDataByTableName('suppliers');

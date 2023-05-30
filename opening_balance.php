@@ -30,7 +30,30 @@ display:none;
 						
 <div>
     <form name="" action="" method="post">
-        <table class="table table-condensed table-hover table-bordered">
+        <div class="col-xs-4" style="background-color:#007BFF;color:#fff;">
+			<div class="form-group">
+				<label>Opening Stock Entry Date</label>
+				<?php 
+							$warehouse_id	=	$_SESSION['logged']['warehouse_id'];
+							$sqlop			=	"SELECT * FROM inv_materialbalance WHERE `mbtype`='OP' AND `warehouse_id`='$warehouse_id';";
+							$resultop		=	mysqli_query($conn, $sqlop);
+							$rowop			=	mysqli_fetch_array($resultop);
+							$op_date 		= 	$rowop['mb_date'];
+							if($op_date)
+							{
+								$op_date 		= 	$rowop['mb_date'];
+								$validation		=	'readonly';
+								$op_id			=	'';
+							}else{
+								$op_date 		= 	date('Y-m-d');
+								$validation		=	'';
+								$op_id			=	'op_date';
+							}
+				?>
+				<input type="text" autocomplete="off" name="op_date" id="<?php echo $op_id; ?>" class="form-control datepicker" value="<?php echo $op_date; ?>" <?php echo $validation; ?>>
+			</div>
+		</div>
+		<table class="table table-condensed table-hover table-bordered">
 				<thead>
 					<tr style="background-color:#007BFF;color:#fff;">
 						<th>Category</th>
@@ -93,25 +116,28 @@ display:none;
 							<?php
 							$mb_materialid	=	$rowmat['material_id_code'];
 							$warehouse_id	=	$_SESSION['logged']['warehouse_id'];
-							$sqlop			=	"SELECT * FROM inv_materialbalance WHERE `mb_materialid` = '$mb_materialid' AND `mbtype`='OP' AND `warehouse_id`='$warehouse_id';";
+							$sqlop			=	"SELECT * FROM inv_materialbalance WHERE `mb_materialid` = '$mb_materialid' AND `mbtype`='OP' AND `warehouse_id`='$warehouse_id'";
 							$resultop		=	mysqli_query($conn, $sqlop);
 							$rowop			=	mysqli_fetch_array($resultop);
 							$rowcount 		=	mysqli_num_rows($resultop);
 							
-							if($rowcount > 0 AND $rowop['mbin_qty'] >= 0){
-								$mbin_qty = $rowop['mbin_qty'];
-								$validation = 'readonly';
-								$submit		= 'disabled';
+							if($rowcount > 0 || $rowop['mbin_qty'] > 0){
+								$mbin_qty 		= $rowop['mbin_qty'];
+								$mbin_val 		= $rowop['mbin_val'];
+									$buttonName	= 'Update Data';
+								$submit_name	= 'op_edit';
+								if($mbin_qty > 0){
+									$validation 	= 'readonly';
+								}else{
+									$validation 	= '';
+									$submit			= '';
+								}
 							}else{
-								$mbin_qty = 0;
-								$validation = '';
-								$submit		= '';
-							}
-							
-							if($rowcount > 0 AND $rowop['mbin_val'] >= 0){
-								$mbin_val = $rowop['mbin_val'];
-							}else{
-								$mbin_val = 0;
+								$mbin_qty		= 0;
+								$mbin_val 		= 0;
+								$validation 	= '';
+								$buttonName			= 'Save Data';
+								$submit_name	= 'op_submit';
 							}
 							?>
 							
@@ -132,7 +158,7 @@ display:none;
 					<input type="hidden" name="warehouse_id" value="<?php echo $warehouse_id; ?>">
 			<div class="col-xs-12">
 				<div class="form-group">
-					<input type="submit" name="op_submit" id="submit" class="btn btn-block btn-info" style="" value="SAVE DATA" <?php echo $submit; ?>/>    
+					<input type="submit" name="<?php echo $submit_name; ?>" id="submit" class="btn btn-block btn-info" style="" value="<?php echo $buttonName; ?>"/>   					
 				</div>
 			</div>
     </form>

@@ -83,7 +83,8 @@
 <script>
   $(function () {
     //Initialize Select2 Elements
-    $('.select2').select2();
+	 $(".material_select_2").select2();
+    //$('.select2').select2();
     $('.all_emplyees').select2();
   })
 </script>

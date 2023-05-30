@@ -75,6 +75,9 @@ include 'includes/payment_process.php';
 .table th, .table td{
 	padding:5px;
 }
+.select2-container .select2-selection--single{
+	height:28px !important;
+}
 
 
 </style>
