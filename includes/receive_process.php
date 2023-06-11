@@ -52,12 +52,12 @@ if (isset($_POST['receive_submit']) && !empty($_POST['receive_submit'])) {
         $approval_remarks		= '';  
 		
 		
-		if (is_uploaded_file($_FILES['sn_prt_image']['tmp_name'])) 
+		/* if (is_uploaded_file($_FILES['sn_prt_image']['tmp_name'])) 
 		{
 			$temp_file=$_FILES['sn_prt_image']['tmp_name'];
 			$mrr_image=time().$_FILES['sn_prt_image']['name'];
 			$q = move_uploaded_file($temp_file,"images/".$mrr_image);
-		}
+		} */
 				
 
 		
