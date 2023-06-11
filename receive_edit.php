@@ -153,7 +153,6 @@ if (isset($_GET['edit_id']) && !empty($_GET['edit_id'])) {
                                 <th>Material Name</th>
                                 <th>Material ID</th>
                                 <th>Unit</th>
-                                <th>Part No</th>
                                 <th>Quantity</th>
                                 <th>Unit Price</th>
                                 <th>Total Amount</th>
@@ -202,7 +201,6 @@ if (isset($_GET['edit_id']) && !empty($_GET['edit_id'])) {
         ?>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" name="part_no[]" id="part_no<?php echo $key; ?>" class="form-control" value="<?php echo (isset($editDatas->part_no) && !empty($editDatas->part_no) ? $editDatas->part_no : ''); ?>"></td>
                                                 <td><input type="text" name="quantity[]" id="quantity<?php echo $key; ?>" onchange="sum(<?php echo $key; ?>)" class="form-control" value="<?php echo (isset($editDatas->receive_qty) && !empty($editDatas->receive_qty) ? $editDatas->receive_qty : ''); ?>"></td>
                                                 <td><input type="text" name="unit_price[]" id="unit_price<?php echo $key; ?>" onchange="sum(<?php echo $key; ?>)" class="form-control" value="<?php echo (isset($editDatas->unit_price) && !empty($editDatas->unit_price) ? $editDatas->unit_price : ''); ?>"></td>
                                                 <td><input type="text" name="totalamount[]" id="sum<?php echo $key; ?>" class="form-control" value="<?php echo (isset($editDatas->total_receive) && !empty($editDatas->total_receive) ? $editDatas->total_receive : ''); ?>"></td>
@@ -249,7 +247,6 @@ if (isset($_GET['edit_id']) && !empty($_GET['edit_id'])) {
     ?>
                                                 </select>
                                             </td>
-                                            <td><input type="text" name="part_no[]" id="part_no" class="form-control"></td>
                                             <td><input type="text" name="quantity[]" id="quantity0" onchange="sum(0)" class="form-control"></td>
                                             <td><input type="text" name="unit_price[]" id="unit_price0" onchange="sum(0)" class="form-control"></td>
                                             <td><input type="text" name="totalamount[]" id="sum0" class="form-control"></td>
@@ -268,33 +265,6 @@ if (isset($_GET['edit_id']) && !empty($_GET['edit_id'])) {
 									<td><input type="text" class="form-control" maxlength="30" name="sub_total_amount" id="allsum" readonly /></td>
 								</tr>
 							</table>
-                        </div>
-                    </div>
-					<div class="row" style="">
-                        <div class="col-xs-3">
-                            <div class="form-group">
-								<input type="hidden" name="sn_old_image" value="<?php if (isset($receiveData->mrr_image)) {
-    echo $receiveData->mrr_image;
-} ?>"  /> 
-                                <input type="file" accept="image/*" name="sn_prt_image" onchange="loadFile(event)">
-								<p style="color:red;">*** Select an image file like .jpg or .png</p>
-								<script>
-								  var loadFile = function(event) {
-									var output = document.getElementById('output');
-									output.src = URL.createObjectURL(event.target.files[0]);
-									output.onload = function() {
-									  URL.revokeObjectURL(output.src) // free memory
-									}
-								  };
-								  
-								</script>
-                            </div>
-                        </div>
-						
-						<div class="col-xs-6">
-                            <div style="border:1px solid gray;height:150px;width:150px;">
-								<img id="output" <?php if ($receiveData->mrr_image){ ?> src="images/<?php echo $receiveData->mrr_image; ?>" <?php } ?> height="150px" width="150px"/>
-                            </div>
                         </div>
                     </div>
                     <div class="row" style="">
@@ -341,7 +311,7 @@ if (isset($projectsData) && !empty($projectsData)) {
     foreach ($projectsData as $data) {
         ?><option value="<?php echo $data['id']; ?>"><?php echo $data['unit_name']; ?></option><?php }
 }
-?></select></td><td><input type="text" name="part_no[]" id="part_no' + i + '" class="form-control"></td><td><input type="text" name="quantity[]" id="quantity' + i + '" onchange="sum(0)" class="form-control"></td><td><input type="text" name="unit_price[]" id="unit_price' + i + '" onchange="sum(0)" class="form-control"></td><td><input type="text" name="totalamount[]" id="sum' + i + '" class="form-control"></td><td><button type="button" name="remove" id="' + i + '" class="btn btn_remove" style="background-color:#f26522;color:#ffffff;">X</button></td></tr>');
+?></select></td><td><input type="text" name="quantity[]" id="quantity' + i + '" onchange="sum(0)" class="form-control"></td><td><input type="text" name="unit_price[]" id="unit_price' + i + '" onchange="sum(0)" class="form-control"></td><td><input type="text" name="totalamount[]" id="sum' + i + '" class="form-control"></td><td><button type="button" name="remove" id="' + i + '" class="btn btn_remove" style="background-color:#f26522;color:#ffffff;">X</button></td></tr>');
             $('#quantity' + i + ', #unit_price' + i).change(function () {
                 sum(i)
             });

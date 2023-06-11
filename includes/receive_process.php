@@ -189,7 +189,7 @@ if(isset($_POST['receive_update_submit']) && !empty($_POST['receive_update_submi
 			$vat_challan_no     = $_POST['vat_challan_no'];
 			$remarks            = $_POST['remarks'];
 			
-			
+			/* 
 			if (is_uploaded_file($_FILES['sn_prt_image']['tmp_name'])) 
 			{
 				$temp_file=$_FILES['sn_prt_image']['tmp_name'];
@@ -199,7 +199,7 @@ if(isset($_POST['receive_update_submit']) && !empty($_POST['receive_update_submi
 			else
 			{
 			 $mrr_image = $_POST["sn_old_image"];
-			}
+			} */
 			
 
 			$query = "INSERT INTO `inv_receivedetail` (`mrr_no`,`material_id`,`unit_id`,`receive_qty`,`unit_price`,`sl_no`,`total_receive`,`project_id`,`warehouse_id`) VALUES ('$mrr_no','$material_id','$unit','$quantity','$unit_price','1','$totalamount','$project_id','$warehouse_id')";
@@ -228,7 +228,7 @@ if(isset($_POST['receive_update_submit']) && !empty($_POST['receive_update_submi
 		/*
 			*  Update Data Into inv_receive Table:
 		*/
-		$query2    = "UPDATE `inv_receive` SET `mrr_no`='$mrr_no',`mrr_date`='$mrr_date',`purchase_id`='$purchase_id',`receive_acct_id`='16-001-001',`supplier_id`='$supplier_id',`postedtogl`='0',`vat_challan_no`='$vat_challan_no',`remarks`='$remarks',`receive_type`='Credit',`project_id`='$project_id',`warehouse_id`='$warehouse_id',`receive_unit_id`='1',`receive_total`='$receive_total',`no_of_material`='$no_of_material',`challanno`='$challan_no',`challan_date`='$challan_date',`requisitionno`='$requisition_no',`requisition_date`='$requisition_date' ,`mrr_image`='$mrr_image' WHERE `id`='$edit_id'";
+		$query2    = "UPDATE `inv_receive` SET `mrr_no`='$mrr_no',`mrr_date`='$mrr_date',`purchase_id`='$purchase_id',`receive_acct_id`='16-001-001',`supplier_id`='$supplier_id',`postedtogl`='0',`vat_challan_no`='$vat_challan_no',`remarks`='$remarks',`receive_type`='Credit',`project_id`='$project_id',`warehouse_id`='$warehouse_id',`receive_unit_id`='1',`receive_total`='$receive_total',`no_of_material`='$no_of_material',`challanno`='$challan_no',`challan_date`='$challan_date',`requisitionno`='$requisition_no',`requisition_date`='$requisition_date' WHERE `id`='$edit_id'";
 		$result2 = $conn->query($query2);
 		
 		
