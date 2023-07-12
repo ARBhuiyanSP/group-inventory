@@ -113,7 +113,7 @@ if(isset($_GET['submit'])){
 					</thead>
 					<tbody>
 					<?php
-						$sql	=	"SELECT * FROM `qry_inv_issue` WHERE `warehouse_id` = '$warehouse_id' AND `employee_id` = '$employee_id' AND `issue_date` BETWEEN '$from_date' AND '$to_date'  GROUP BY `material_id`";
+						$sql	=	"SELECT * FROM `qry_inv_issue` WHERE `warehouse_id` = '$warehouse_id' AND `employee_id` = '$employee_id' AND `issue_date` BETWEEN '$from_date' AND '$to_date'";
 						$result = mysqli_query($conn, $sql);
 						while($row=mysqli_fetch_array($result))
 						{
