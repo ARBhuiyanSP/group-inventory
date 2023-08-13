@@ -139,7 +139,7 @@ $mrr_no=$_GET['no']; ?>
 								</tr>
 								<?php } ?>
 								<tr>
-									<td colspan="3" class="grand_total">Grand Total:</td>
+									<td colspan="4" class="grand_total">Grand Total:</td>
 									<td>
 										<?php 
 										$sql2 			= "SELECT sum(receive_qty) FROM  `inv_receivedetail` where `mrr_no`='$mrr_no'";
@@ -157,7 +157,9 @@ $mrr_no=$_GET['no']; ?>
 										$result2		= mysqli_query($conn, $sql2);
 										for($i=0; $row2 = mysqli_fetch_array($result2); $i++){
 										$totalAmount	=$row2['sum(total_receive)'];
-										echo $totalAmount ;
+										//echo $totalAmount ;
+										$totalAmountFloat = number_format((float)$totalAmount, 2, '.', '');
+										echo $totalAmountFloat;
 										}
 										?>
 									</td>
@@ -165,7 +167,7 @@ $mrr_no=$_GET['no']; ?>
 							</tbody>
 						</table>
 						<b>Total Amount in words: 
-							<span class="amountWords"><?php echo convertNumberToWords($totalAmount).' BDT Only';?></span>
+							<span class="amountWords"><?php echo convertNumberToWords($totalAmountFloat).'  Only';?></span>
 						</b> 
 						<div class="row" style="text-align:center">
 							<div class="col-sm-5"></br><?php 

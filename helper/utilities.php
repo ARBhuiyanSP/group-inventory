@@ -492,80 +492,55 @@ function get_material_balance_transfer_in_quantity($param){
     return $rowData;
 }
 
-function convertNumberToWords($number){
-		//A function to convert numbers into readable words with Cores, Lakhs and Thousands.
-		$words = array(
-		'0'		=> '' ,
-		'1'		=> 'one' ,
-		'2'		=> 'two' ,
-		'3' 	=> 'three',
-		'4' 	=> 'four',
-		'5' 	=> 'five',
-		'6' 	=> 'six',
-		'7' 	=> 'seven',
-		'8' 	=> 'eight',
-		'9' 	=> 'nine',
-		'10' 	=> 'ten',
-		'11' 	=> 'eleven',
-		'12' 	=> 'twelve',
-		'13' 	=> 'thirteen',
-		'14' 	=> 'fouteen',
-		'15' 	=> 'fifteen',
-		'16' 	=> 'sixteen',
-		'17' 	=> 'seventeen',
-		'18' 	=> 'eighteen',
-		'19' 	=> 'nineteen',
-		'20' 	=> 'twenty',
-		'30' 	=> 'thirty',
-		'40' 	=> 'fourty',
-		'50' 	=> 'fifty',
-		'60' 	=> 'sixty',
-		'70' 	=> 'seventy',
-		'80' 	=> 'eighty',
-		'90' 	=> 'ninty');
-		
-		//First find the length of the number
-		$number_length = strlen($number);
-		//Initialize an empty array
-		$number_array = array(0,0,0,0,0,0,0,0,0);        
-		$received_number_array = array();
-		
-		//Store all received numbers into an array
-		for($i=0;$i<$number_length;$i++){    
-			$received_number_array[$i] = substr($number,$i,1);    
-		}
-		//Populate the empty array with the numbers received - most critical operation
-		for($i=9-$number_length,$j=0;$i<9;$i++,$j++){ 
-			$number_array[$i] = $received_number_array[$j]; 
-		}
-		$number_to_words_string = "";
-		//Finding out whether it is teen ? and then multiply by 10, example 17 is seventeen, so if 1 is preceeded with 7 multiply 1 by 10 and add 7 to it.
-		for($i=0,$j=1;$i<9;$i++,$j++){
-			//"01,23,45,6,78"
-			//"00,10,06,7,42"
-			//"00,01,90,0,00"
-			if($i==0 || $i==2 || $i==4 || $i==7){
-				if($number_array[$j]==0 || $number_array[$i] == "1"){
-					$number_array[$j] = intval($number_array[$i])*10+$number_array[$j];
-					$number_array[$i] = 0;
-				}
-				   
-			}
-		}
-		$value = "";
-		for($i=0;$i<9;$i++){
-			if($i==0 || $i==2 || $i==4 || $i==7){    
-				$value = $number_array[$i]*10; 
-			}
-			else{ 
-				$value = $number_array[$i];    
-			}            
-			if($value!=0)         {    $number_to_words_string.= $words["$value"]." "; }
-			if($i==1 && $value!=0){    $number_to_words_string.= "Crore "; }
-			if($i==3 && $value!=0){    $number_to_words_string.= "Lakh ";    }
-			if($i==5 && $value!=0){    $number_to_words_string.= "Thousand "; }
-			if($i==6 && $value!=0){    $number_to_words_string.= "Hundred "; }            
-		}
-		if($number_length>9){ $number_to_words_string = "Sorry This does not support more than 99 Crores"; }
-		return ucwords(strtolower($number_to_words_string));
-	}
+function convertNumberToWords(float $number)
+{
+    $decimal = round($number - ($no = floor($number)), 2) * 100;
+    $decimal_part = $decimal;
+    $hundred = null;
+    $hundreds = null;
+    $digits_length = strlen($no);
+    $decimal_length = strlen($decimal);
+    $i = 0;
+    $str = array();
+    $str2 = array();
+    $words = array(0 => '', 1 => 'One', 2 => 'Two',
+        3 => 'Three', 4 => 'Four', 5 => 'Five', 6 => 'Six',
+        7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
+        10 => 'Ten', 11 => 'Eleven', 12 => 'Twelve',
+        13 => 'Thirteen', 14 => 'Fourteen', 15 => 'Fifteen',
+        16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
+        19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
+        40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
+        70 => 'Seventy', 80 => 'Eighty', 90 => 'Ninety');
+    $digits = array('', 'Hundred','Thousand','Lakh', 'Crore');
+
+    while( $i < $digits_length ) {
+        $divider = ($i == 2) ? 10 : 100;
+        $number = floor($no % $divider);
+        $no = floor($no / $divider);
+        $i += $divider == 10 ? 1 : 2;
+        if ($number) {
+            $plural = (($counter = count($str)) && $number > 9) ? '' : null;
+            $hundred = ($counter == 1 && $str[0]) ? ' and ' : null;
+            $str [] = ($number < 21) ? $words[$number].' '. $digits[$counter]. $plural.' '.$hundred:$words[floor($number / 10) * 10].' '.$words[$number % 10]. ' '.$digits[$counter].$plural.' '.$hundred;
+        } else $str[] = null;
+    }
+
+    $d = 0;
+    while( $d < $decimal_length ) {
+        $divider = ($d == 2) ? 10 : 100;
+        $decimal_number = floor($decimal % $divider);
+        $decimal = floor($decimal / $divider);
+        $d += $divider == 10 ? 1 : 2;
+        if ($decimal_number) {
+            $plurals = (($counter = count($str2)) && $decimal_number > 9) ? '' : null;
+            $hundreds = ($counter == 1 && $str2[0]) ? ' and ' : null;
+            @$str2 [] = ($decimal_number < 21) ? $words[$decimal_number].' '. $digits[$decimal_number]. $plural.' '.$hundred:$words[floor($decimal_number / 10) * 10].' '.$words[$decimal_number % 10]. ' '.$digits[$counter].$plural.' '.$hundred;
+        } else $str2[] = null;
+    }
+
+    $Taka = implode('', array_reverse($str));
+    $Paysa = implode('', array_reverse($str2));
+    $Paysa = ($decimal_part > 0) ? $Paysa . ' Paysa' : '';
+    return ($Taka ? $Taka . 'Taka ' : '') . $Paysa;
+}
